@@ -57,11 +57,11 @@ class Robot_statechart : public StatemachineInterface
 				/*! Sets the value of the variable 'logger' that is defined in the interface scope 'ctrl'. */
 				void set_logger(Logger value);
 				
-				/*! Gets the value of the variable 'controlUnit' that is defined in the interface scope 'ctrl'. */
-				ControlUnit get_controlUnit() const;
+				/*! Gets the value of the variable 'ctrlUnit' that is defined in the interface scope 'ctrl'. */
+				ControlUnit * get_ctrlUnit() const;
 				
-				/*! Sets the value of the variable 'controlUnit' that is defined in the interface scope 'ctrl'. */
-				void set_controlUnit(ControlUnit value);
+				/*! Sets the value of the variable 'ctrlUnit' that is defined in the interface scope 'ctrl'. */
+				void set_ctrlUnit(ControlUnit * value);
 				
 				/*! Gets the value of the variable 'robotCtrl' that is defined in the interface scope 'ctrl'. */
 				CleaningRobot get_robotCtrl() const;
@@ -75,7 +75,7 @@ class Robot_statechart : public StatemachineInterface
 				sc_boolean userEvent_raised;
 				Command userEvent_value;
 				Logger logger;
-				ControlUnit controlUnit;
+				ControlUnit * ctrlUnit;
 				CleaningRobot robotCtrl;
 		};
 		

@@ -148,14 +148,14 @@ void Robot_statechart::SCI_Ctrl::set_logger(Logger value)
 	logger = value;
 }
 
-ControlUnit Robot_statechart::SCI_Ctrl::get_controlUnit() const
+ControlUnit * Robot_statechart::SCI_Ctrl::get_ctrlUnit() const
 {
-	return controlUnit;
+	return ctrlUnit;
 }
 
-void Robot_statechart::SCI_Ctrl::set_controlUnit(ControlUnit value)
+void Robot_statechart::SCI_Ctrl::set_ctrlUnit(ControlUnit * value)
 {
-	controlUnit = value;
+	ctrlUnit = value;
 }
 
 CleaningRobot Robot_statechart::SCI_Ctrl::get_robotCtrl() const
@@ -401,7 +401,7 @@ sc_boolean Robot_statechart::main_region_not_driving_react(const sc_boolean try_
 	{ 
 		if (((react(try_transition)) == (false)))
 		{ 
-			if (((ifaceCtrl.controlUnit.getCommand()) == (Forwards)))
+			if ((((*(ifaceCtrl.ctrlUnit)).getCommand()) == (Forwards)))
 			{ 
 				exseq_main_region_not_driving();
 				enseq_main_region_driving_r1_driving_forwads_default();
@@ -424,7 +424,7 @@ sc_boolean Robot_statechart::main_region_not_driving_r1_stopped_react(const sc_b
 	{ 
 		if (((main_region_not_driving_react(try_transition)) == (false)))
 		{ 
-			if (((ifaceCtrl.controlUnit.getCommand()) == (Rotate)))
+			if ((((*(ifaceCtrl.ctrlUnit)).getCommand()) == (Rotate)))
 			{ 
 				exseq_main_region_not_driving_r1_stopped();
 				enseq_main_region_not_driving_r1_rotating_default();
@@ -447,13 +447,13 @@ sc_boolean Robot_statechart::main_region_not_driving_r1_rotating_react(const sc_
 	{ 
 		if (((main_region_not_driving_react(try_transition)) == (false)))
 		{ 
-			if (((ifaceCtrl.controlUnit.getCommand()) == (Stop)))
+			if ((((*(ifaceCtrl.ctrlUnit)).getCommand()) == (Stop)))
 			{ 
 				exseq_main_region_not_driving_r1_rotating();
 				enseq_main_region_not_driving_r1_stopped_default();
 			}  else
 			{
-				if (((ifaceCtrl.controlUnit.getCommand()) == (Backwards)))
+				if ((((*(ifaceCtrl.ctrlUnit)).getCommand()) == (Backwards)))
 				{ 
 					exseq_main_region_not_driving();
 					enseq_main_region_driving_r1_driving_backwards_default();
@@ -477,7 +477,7 @@ sc_boolean Robot_statechart::main_region_driving_react(const sc_boolean try_tran
 	{ 
 		if (((react(try_transition)) == (false)))
 		{ 
-			if ((((ifaceCtrl.controlUnit.getCommand()) == (Stop))) || (((ifaceCtrl.controlUnit.getCommand()) == (Rotate))))
+			if (((((*(ifaceCtrl.ctrlUnit)).getCommand()) == (Stop))) || ((((*(ifaceCtrl.ctrlUnit)).getCommand()) == (Rotate))))
 			{ 
 				exseq_main_region_driving();
 				enseq_main_region_not_driving_default();
@@ -500,7 +500,7 @@ sc_boolean Robot_statechart::main_region_driving_r1_driving_forwads_react(const 
 	{ 
 		if (((main_region_driving_react(try_transition)) == (false)))
 		{ 
-			if (((ifaceCtrl.controlUnit.getCommand()) == (Backwards)))
+			if ((((*(ifaceCtrl.ctrlUnit)).getCommand()) == (Backwards)))
 			{ 
 				exseq_main_region_driving_r1_driving_forwads();
 				enseq_main_region_driving_r1_driving_backwards_default();
@@ -523,7 +523,7 @@ sc_boolean Robot_statechart::main_region_driving_r1_driving_backwards_react(cons
 	{ 
 		if (((main_region_driving_react(try_transition)) == (false)))
 		{ 
-			if (((ifaceCtrl.controlUnit.getCommand()) == (Forwards)))
+			if ((((*(ifaceCtrl.ctrlUnit)).getCommand()) == (Forwards)))
 			{ 
 				exseq_main_region_driving_r1_driving_backwards();
 				enseq_main_region_driving_r1_driving_forwads_default();
