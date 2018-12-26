@@ -12,6 +12,7 @@ typedef enum {Forwards,Backwards,Rotate,Stop, RotateCCW, RotateCW} Command;
 
 class ControlUnit {
 public:
+  ControlUnit();
   Command getCommand() const;
   void setCommand(Command command);
   Command getRotationDir() const;

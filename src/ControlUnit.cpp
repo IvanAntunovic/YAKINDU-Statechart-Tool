@@ -7,18 +7,20 @@
 
 #include "ControlUnit.hpp"
 
+ControlUnit::ControlUnit() : mCommand(Command::Stop) {}
+
 Command ControlUnit::getCommand() const {
-	return mCommand;
+  return mCommand;
 }
 
 void ControlUnit::setCommand(Command command) {
-	mCommand = command;
+  mCommand = command;
 }
 
 Command ControlUnit::getRotationDir() const {
-	return mRotationDir;
+  return mRotationDir;
 }
 
 void ControlUnit::setRotationDir(Command rotationDir) {
-	mRotationDir = rotationDir;
+  mRotationDir = rotationDir;
 }

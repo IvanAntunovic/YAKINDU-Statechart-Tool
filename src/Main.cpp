@@ -28,9 +28,8 @@ int main(void) {
   // Enter the state machine and implicitly activate its "Stopped" state:
   robotFSM.enter();
 
-  robotFSM.raise_userEvent(Command::Rotate);
+  robotFSM
   robotFSM.runCycle();
-
 
 
   return 0;

@@ -3,9 +3,9 @@
 #define ROBOT_STATECHART_H_
 
 
-#include "..\src\CleaningRobot.hpp"
-#include "..\src\Logger.hpp"
 #include "..\src\ControlUnit.hpp"
+#include "..\src\Logger.hpp"
+#include "..\src\CleaningRobot.hpp"
 #include "..\src\sc_types.h"
 #include "..\src\StatemachineInterface.h"
 
@@ -43,26 +43,44 @@ class Robot_statechart : public StatemachineInterface
 		
 		static const sc_integer numStates = 6;
 		
-		//! Inner class for default interface scope.
-		class DefaultSCI
+		//! Inner class for ctrl interface scope.
+		class SCI_Ctrl
 		{
 			
 			public:
-				/*! Raises the in event 'userEvent' that is defined in the default interface scope. */
+				/*! Raises the in event 'userEvent' that is defined in the interface scope 'ctrl'. */
 				void raise_userEvent(Command value);
+				
+				/*! Gets the value of the variable 'logger' that is defined in the interface scope 'ctrl'. */
+				Logger get_logger() const;
+				
+				/*! Sets the value of the variable 'logger' that is defined in the interface scope 'ctrl'. */
+				void set_logger(Logger value);
+				
+				/*! Gets the value of the variable 'controlUnit' that is defined in the interface scope 'ctrl'. */
+				ControlUnit get_controlUnit() const;
+				
+				/*! Sets the value of the variable 'controlUnit' that is defined in the interface scope 'ctrl'. */
+				void set_controlUnit(ControlUnit value);
+				
+				/*! Gets the value of the variable 'robotCtrl' that is defined in the interface scope 'ctrl'. */
+				CleaningRobot get_robotCtrl() const;
+				
+				/*! Sets the value of the variable 'robotCtrl' that is defined in the interface scope 'ctrl'. */
+				void set_robotCtrl(CleaningRobot value);
 				
 				
 			private:
 				friend class Robot_statechart;
 				sc_boolean userEvent_raised;
 				Command userEvent_value;
+				Logger logger;
+				ControlUnit controlUnit;
+				CleaningRobot robotCtrl;
 		};
 		
-		/*! Returns an instance of the interface class 'DefaultSCI'. */
-		DefaultSCI* getDefaultSCI();
-		
-		/*! Raises the in event 'userEvent' that is defined in the default interface scope. */
-		void raise_userEvent(Command value);
+		/*! Returns an instance of the interface class 'SCI_Ctrl'. */
+		SCI_Ctrl* getSCI_Ctrl();
 		
 		
 		/*
@@ -96,36 +114,6 @@ class Robot_statechart : public StatemachineInterface
 	protected:
 	private:
 		
-		//! Inner class for internal interface scope.
-		class InternalSCI
-		{
-			
-			public:
-				/*! Gets the value of the variable 'logger' that is defined in the internal scope. */
-				Logger get_logger() const;
-				
-				/*! Sets the value of the variable 'logger' that is defined in the internal scope. */
-				void set_logger(Logger value);
-				
-				/*! Gets the value of the variable 'controlUnit' that is defined in the internal scope. */
-				ControlUnit get_controlUnit() const;
-				
-				/*! Sets the value of the variable 'controlUnit' that is defined in the internal scope. */
-				void set_controlUnit(ControlUnit value);
-				
-				/*! Gets the value of the variable 'robotCtrl' that is defined in the internal scope. */
-				CleaningRobot get_robotCtrl() const;
-				
-				/*! Sets the value of the variable 'robotCtrl' that is defined in the internal scope. */
-				void set_robotCtrl(CleaningRobot value);
-				
-				
-			private:
-				friend class Robot_statechart;
-				Logger logger;
-				ControlUnit controlUnit;
-				CleaningRobot robotCtrl;
-		};
 		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc_ushort maxOrthogonalStates = 1;
@@ -135,8 +123,7 @@ class Robot_statechart : public StatemachineInterface
 		
 		sc_ushort stateConfVectorPosition;
 		
-		DefaultSCI iface;
-		InternalSCI ifaceInternalSCI;
+		SCI_Ctrl ifaceCtrl;
 		
 		// prototypes of all internal functions
 		

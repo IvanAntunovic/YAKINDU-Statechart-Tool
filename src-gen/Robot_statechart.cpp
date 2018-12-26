@@ -9,8 +9,7 @@
 
 Robot_statechart::Robot_statechart():
 	stateConfVectorPosition(0),
-	iface(),
-	ifaceInternalSCI()
+	ifaceCtrl()
 {
 }
 
@@ -95,7 +94,7 @@ void Robot_statechart::runCycle()
 
 void Robot_statechart::clearInEvents()
 {
-	iface.userEvent_raised = false;
+	ifaceCtrl.userEvent_raised = false;
 }
 
 void Robot_statechart::clearOutEvents()
@@ -129,46 +128,42 @@ sc_boolean Robot_statechart::isStateActive(Robot_statechartStates state) const
 	}
 }
 
-Robot_statechart::DefaultSCI* Robot_statechart::getDefaultSCI()
+Robot_statechart::SCI_Ctrl* Robot_statechart::getSCI_Ctrl()
 {
-	return &iface;
+	return &ifaceCtrl;
 }
-/* Functions for event userEvent in interface DefaultSCI */
-void Robot_statechart::DefaultSCI::raise_userEvent(Command value)
+/* Functions for event userEvent in interface SCI_Ctrl */
+void Robot_statechart::SCI_Ctrl::raise_userEvent(Command value)
 {
 	userEvent_value = value;
 	userEvent_raised = true;
 }
-void Robot_statechart::raise_userEvent(Command value)
-{
-	iface.raise_userEvent(value);
-}
-Logger Robot_statechart::InternalSCI::get_logger() const
+Logger Robot_statechart::SCI_Ctrl::get_logger() const
 {
 	return logger;
 }
 
-void Robot_statechart::InternalSCI::set_logger(Logger value)
+void Robot_statechart::SCI_Ctrl::set_logger(Logger value)
 {
 	logger = value;
 }
 
-ControlUnit Robot_statechart::InternalSCI::get_controlUnit() const
+ControlUnit Robot_statechart::SCI_Ctrl::get_controlUnit() const
 {
 	return controlUnit;
 }
 
-void Robot_statechart::InternalSCI::set_controlUnit(ControlUnit value)
+void Robot_statechart::SCI_Ctrl::set_controlUnit(ControlUnit value)
 {
 	controlUnit = value;
 }
 
-CleaningRobot Robot_statechart::InternalSCI::get_robotCtrl() const
+CleaningRobot Robot_statechart::SCI_Ctrl::get_robotCtrl() const
 {
 	return robotCtrl;
 }
 
-void Robot_statechart::InternalSCI::set_robotCtrl(CleaningRobot value)
+void Robot_statechart::SCI_Ctrl::set_robotCtrl(CleaningRobot value)
 {
 	robotCtrl = value;
 }
@@ -180,28 +175,28 @@ void Robot_statechart::InternalSCI::set_robotCtrl(CleaningRobot value)
 void Robot_statechart::enact_main_region_not_driving_r1_stopped()
 {
 	/* Entry action for state 'stopped'. */
-	ifaceInternalSCI.logger.log((sc_string) "Stopped State Entered");
+	ifaceCtrl.logger.log((sc_string) "Stopped State Entered");
 }
 
 /* Entry action for state 'rotating'. */
 void Robot_statechart::enact_main_region_not_driving_r1_rotating()
 {
 	/* Entry action for state 'rotating'. */
-	ifaceInternalSCI.logger.log((sc_string) "Rotating State Entered");
+	ifaceCtrl.logger.log((sc_string) "Rotating State Entered");
 }
 
 /* Entry action for state 'driving_forwads'. */
 void Robot_statechart::enact_main_region_driving_r1_driving_forwads()
 {
 	/* Entry action for state 'driving_forwads'. */
-	ifaceInternalSCI.logger.log((sc_string) "Driving Forwards State Entered");
+	ifaceCtrl.logger.log((sc_string) "Driving Forwards State Entered");
 }
 
 /* Entry action for state 'driving_backwards'. */
 void Robot_statechart::enact_main_region_driving_r1_driving_backwards()
 {
 	/* Entry action for state 'driving_backwards'. */
-	ifaceInternalSCI.logger.log((sc_string) "Driving Backwards State Entered");
+	ifaceCtrl.logger.log((sc_string) "Driving Backwards State Entered");
 }
 
 /* 'default' enter sequence for state not_driving */
@@ -406,7 +401,7 @@ sc_boolean Robot_statechart::main_region_not_driving_react(const sc_boolean try_
 	{ 
 		if (((react(try_transition)) == (false)))
 		{ 
-			if (((ifaceInternalSCI.controlUnit.getCommand()) == (Forwards)))
+			if (((ifaceCtrl.controlUnit.getCommand()) == (Forwards)))
 			{ 
 				exseq_main_region_not_driving();
 				enseq_main_region_driving_r1_driving_forwads_default();
@@ -429,7 +424,7 @@ sc_boolean Robot_statechart::main_region_not_driving_r1_stopped_react(const sc_b
 	{ 
 		if (((main_region_not_driving_react(try_transition)) == (false)))
 		{ 
-			if (((ifaceInternalSCI.controlUnit.getCommand()) == (Rotate)))
+			if (((ifaceCtrl.controlUnit.getCommand()) == (Rotate)))
 			{ 
 				exseq_main_region_not_driving_r1_stopped();
 				enseq_main_region_not_driving_r1_rotating_default();
@@ -452,13 +447,13 @@ sc_boolean Robot_statechart::main_region_not_driving_r1_rotating_react(const sc_
 	{ 
 		if (((main_region_not_driving_react(try_transition)) == (false)))
 		{ 
-			if (((ifaceInternalSCI.controlUnit.getCommand()) == (Stop)))
+			if (((ifaceCtrl.controlUnit.getCommand()) == (Stop)))
 			{ 
 				exseq_main_region_not_driving_r1_rotating();
 				enseq_main_region_not_driving_r1_stopped_default();
 			}  else
 			{
-				if (((ifaceInternalSCI.controlUnit.getCommand()) == (Forwards)))
+				if (((ifaceCtrl.controlUnit.getCommand()) == (Backwards)))
 				{ 
 					exseq_main_region_not_driving();
 					enseq_main_region_driving_r1_driving_backwards_default();
@@ -482,7 +477,7 @@ sc_boolean Robot_statechart::main_region_driving_react(const sc_boolean try_tran
 	{ 
 		if (((react(try_transition)) == (false)))
 		{ 
-			if ((((ifaceInternalSCI.controlUnit.getCommand()) == (Stop))) || (((ifaceInternalSCI.controlUnit.getCommand()) == (Rotate))))
+			if ((((ifaceCtrl.controlUnit.getCommand()) == (Stop))) || (((ifaceCtrl.controlUnit.getCommand()) == (Rotate))))
 			{ 
 				exseq_main_region_driving();
 				enseq_main_region_not_driving_default();
@@ -505,7 +500,7 @@ sc_boolean Robot_statechart::main_region_driving_r1_driving_forwads_react(const 
 	{ 
 		if (((main_region_driving_react(try_transition)) == (false)))
 		{ 
-			if (((ifaceInternalSCI.controlUnit.getCommand()) == (Backwards)))
+			if (((ifaceCtrl.controlUnit.getCommand()) == (Backwards)))
 			{ 
 				exseq_main_region_driving_r1_driving_forwads();
 				enseq_main_region_driving_r1_driving_backwards_default();
@@ -528,7 +523,7 @@ sc_boolean Robot_statechart::main_region_driving_r1_driving_backwards_react(cons
 	{ 
 		if (((main_region_driving_react(try_transition)) == (false)))
 		{ 
-			if (((ifaceInternalSCI.controlUnit.getCommand()) == (Forwards)))
+			if (((ifaceCtrl.controlUnit.getCommand()) == (Forwards)))
 			{ 
 				exseq_main_region_driving_r1_driving_backwards();
 				enseq_main_region_driving_r1_driving_forwads_default();
