@@ -5,8 +5,9 @@
  *      Author: Johnny
  */
 #include "CleaningRobot.hpp"
+#include "../src-gen/Robot_statechart.h"
 
-int main(void) {
+void test () {
 
   CleaningRobot cleaningRobot;
 
@@ -15,6 +16,22 @@ int main(void) {
   cleaningRobot.rotate(RotateDirection::CCW);
   cleaningRobot.stop();
   cleaningRobot.rotate(RotateDirection::CW);
+}
+
+int main(void) {
+
+  Robot_statechart robotFSM;
+
+  // Initialize the state machine:
+  robotFSM.init();
+
+  // Enter the state machine and implicitly activate its "Stopped" state:
+  robotFSM.enter();
+
+  robotFSM.raise_userEvent(Command::Rotate);
+  robotFSM.runCycle();
+
+
 
   return 0;
 }

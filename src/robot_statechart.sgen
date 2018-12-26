@@ -1,0 +1,11 @@
+GeneratorModel for yakindu::cpp {
+
+	statechart robot_statechart {
+
+		feature Outlet {
+			targetProject = "CleaningRobot"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src"
+		}
+	}
+}
