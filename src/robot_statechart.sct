@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_cL2hYAlFEemuyee1ySwmkw" specification="import: &quot;Logger.hpp&quot;&#xA;import: &quot;CleaningRobot.hpp&quot;&#xA;import: &quot;IRotatable.h&quot;&#xA;import: &quot;ControlUnit.hpp&quot;&#xA;&#xA;interface ctrl:&#xA;  in event userEvent : Command&#xA;  var logger : Logger&#xA;  var controlUnit : ControlUnit  &#xA;  var robotCtrl : CleaningRobot&#xA;" name="robot_statechart" domainID="com.yakindu.domain.c">
+  <sgraph:Statechart xmi:id="_cL2hYAlFEemuyee1ySwmkw" specification="import: &quot;Logger.hpp&quot;&#xA;import: &quot;CleaningRobot.hpp&quot;&#xA;import: &quot;IRotatable.h&quot;&#xA;import: &quot;ControlUnit.hpp&quot;&#xA;&#xA;interface ctrl:&#xA;  in event userEvent : Command&#xA;  var logger : Logger&#xA;  var controlUnit : ControlUnit &#xA;  var robotCtrl : CleaningRobot&#xA;" name="robot_statechart" domainID="com.yakindu.domain.c">
     <regions xmi:id="_cL4WmQlFEemuyee1ySwmkw" name="main region">
       <vertices xsi:type="sgraph:Entry" xmi:id="_cL49pglFEemuyee1ySwmkw">
         <outgoingTransitions xmi:id="_is9BcAlGEemuyee1ySwmkw" specification="" target="_d3MzcAlGEemuyee1ySwmkw"/>

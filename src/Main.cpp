@@ -20,6 +20,7 @@ void test () {
 
 int main(void) {
 
+  ControlUnit* ctrlUnit = new ControlUnit();
   Robot_statechart robotFSM;
 
   // Initialize the state machine:
@@ -28,7 +29,8 @@ int main(void) {
   // Enter the state machine and implicitly activate its "Stopped" state:
   robotFSM.enter();
 
-  robotFSM
+  ctrlUnit->setCommand(Command::Forwards);
+  robotFSM.getSCI_Ctrl()->set_controlUnit(*ctrlUnit);
   robotFSM.runCycle();
 
 
